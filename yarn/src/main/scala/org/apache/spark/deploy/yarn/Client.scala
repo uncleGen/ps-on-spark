@@ -693,7 +693,11 @@ private[spark] class Client(
         userArgs ++ Seq(
           "--executor-memory", args.executorMemory.toString + "m",
           "--executor-cores", args.executorCores.toString,
-          "--num-executors ", args.numExecutors.toString)
+          "--num-executors ", args.numExecutors.toString,
+          "--server-memory", args.psServerMemory.toString + "m",
+          "--server-cores", args.psServerCores.toString,
+          "--num-servers", args.numPSServers,
+          "--enable-ps")
 
     // Command for the ApplicationMaster
     val commands = prefixEnv ++ Seq(

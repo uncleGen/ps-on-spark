@@ -32,6 +32,12 @@ class ApplicationMasterArguments(val args: Array[String]) {
   var executorCores = 1
   var numExecutors = DEFAULT_NUMBER_EXECUTORS
 
+  // parameter server mode only
+  var enablePS: Boolean = false
+  var psServerMemory = 1024
+  var psServerCores = 1
+  var numPSServers = DEFAULT_NUMBER_PS_SERVERS
+
   parseArgs(args.toList)
 
   private def parseArgs(inputArgs: List[String]): Unit = {
@@ -79,6 +85,23 @@ class ApplicationMasterArguments(val args: Array[String]) {
           executorCores = value
           args = tail
 
+        // parameter server mode only
+        case ("--num-servers") :: IntParam(value) :: tail =>
+          numPSServers = value
+          args = tail
+
+        case ("--server-memory") :: MemoryParam(value) :: tail =>
+          psServerMemory = value
+          args = tail
+
+        case ("--server-cores") :: IntParam(value) :: tail =>
+          psServerCores = value
+          args = tail
+
+        case ("--enable-ps") :: tail =>
+          enablePS = true
+          args = tail
+
         case _ =>
           printUsageAndExit(1, args)
       }
@@ -110,6 +133,11 @@ class ApplicationMasterArguments(val args: Array[String]) {
       |  --num-executors NUM    Number of executors to start (Default: 2)
       |  --executor-cores NUM   Number of cores for the executors (Default: 1)
       |  --executor-memory MEM  Memory per executor (e.g. 1000M, 2G) (Default: 1G)
+      |
+      |  --enable-ps          Enable parameter server mode
+      |  --num-servers NUM    Number of servers to start (Default: 1)
+      |  --server-cores NUM   Number of cores for the server (Default: 1)
+      |  --server-memory NUM  Memory per server (e.g. 1000M, 2G) (Default: 1G)
       """.stripMargin)
     System.exit(exitCode)
   }

@@ -442,6 +442,12 @@ object SparkSubmit {
       OptionAssigner(args.archives, YARN, CLUSTER, clOption = "--archives"),
       OptionAssigner(args.jars, YARN, CLUSTER, clOption = "--addJars"),
 
+      // Parameter Server only
+      OptionAssigner(args.numPSServers, YARN, CLUSTER, clOption = "--num-servers"),
+      OptionAssigner(args.psServerMemory, YARN, CLUSTER, clOption = "--server-memory"),
+      OptionAssigner(args.psServerCores, YARN, CLUSTER, clOption = "--server-cores"),
+      OptionAssigner(args.enablePS.toString, YARN, CLUSTER, clOption = "--enable-ps"),
+
       // Yarn client or cluster
       OptionAssigner(args.principal, YARN, ALL_DEPLOY_MODES, clOption = "--principal"),
       OptionAssigner(args.keytab, YARN, ALL_DEPLOY_MODES, clOption = "--keytab"),

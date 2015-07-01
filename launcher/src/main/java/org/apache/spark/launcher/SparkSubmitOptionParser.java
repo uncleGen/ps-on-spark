@@ -58,6 +58,12 @@ class SparkSubmitOptionParser {
   protected final String STATUS = "--status";
   protected final String TOTAL_EXECUTOR_CORES = "--total-executor-cores";
 
+  // parameter server only
+  protected final String NUM_SERVERS = "--num-servers";
+  protected final String SERVER_CORES = "--server-cores";
+  protected final String SERVER_MEMORY = "--server-memory";
+  protected final String ENABLEPS = "--enable-ps";
+
   // Options that do not take arguments.
   protected final String HELP = "--help";
   protected final String SUPERVISE = "--supervise";

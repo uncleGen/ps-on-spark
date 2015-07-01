@@ -92,6 +92,15 @@ private[spark] class ApplicationMaster(
         // Propagate the application ID so that YarnClusterSchedulerBackend can pick it up.
         System.setProperty("spark.yarn.app.id", appAttemptId.getApplicationId().toString())
 
+        // Set if need to run a job on `Parameter Server` Mode
+        System.setProperty("spark.ps.enable", args.enablePS.toString)
+
+        // Set the number of servers
+        System.setProperty("spark.ps.num.servers", args.numPSServers.toString)
+
+        // Set the number of executors
+        System.setProperty("spark.num.executors", args.numExecutors.toString)
+
         // Propagate the attempt if, so that in case of event logging,
         // different attempt's logs gets created in different directory
         System.setProperty("spark.yarn.app.attemptId", appAttemptId.getAttemptId().toString())

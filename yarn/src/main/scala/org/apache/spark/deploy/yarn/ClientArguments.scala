@@ -46,6 +46,12 @@ private[spark] class ClientArguments(args: Array[String], sparkConf: SparkConf) 
   var keytab: String = null
   def isClusterMode: Boolean = userClass != null
 
+  // parameter server mode only
+  var psServerMemory = 1024 // MB
+  var psServerCores = 1
+  var numPSServers = DEFAULT_NUMBER_PS_SERVERS
+  var enablePS = false
+
   private var driverMemory: Int = 512 // MB
   private var driverCores: Int = 1
   private val driverMemOverheadKey = "spark.yarn.driver.memoryOverhead"
@@ -239,6 +245,23 @@ private[spark] class ClientArguments(args: Array[String], sparkConf: SparkConf) 
 
         case ("--keytab") :: value :: tail =>
           keytab = value
+          args = tail
+
+        // parameter server mode only
+        case ("--num-servers") :: IntParam(value) :: tail =>
+          numPSServers = value
+          args = tail
+
+        case ("--server-memory") :: MemoryParam(value) :: tail =>
+          psServerMemory = value
+          args = tail
+
+        case ("--server-cores") :: IntParam(value) :: tail =>
+          psServerCores = value
+          args = tail
+
+        case ("--enable-ps") :: tail =>
+          enablePS = true
           args = tail
 
         case Nil =>

@@ -66,6 +66,12 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   var principal: String = null
   var keytab: String = null
 
+  // parameter server only
+  var psServerMemory: String = null
+  var psServerCores: String = null
+  var numPSServers: String = null
+  var enablePS: Boolean = false
+
   // Standalone cluster mode only
   var supervise: Boolean = false
   var driverCores: String = null
@@ -409,6 +415,19 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
 
       case VERSION =>
         SparkSubmit.printVersionAndExit()
+
+      // parameter server
+      case NUM_SERVERS =>
+        numPSServers = value
+
+      case SERVER_CORES =>
+        psServerCores = value
+
+      case SERVER_MEMORY =>
+        psServerMemory = value
+
+      case ENABLEPS =>
+        enablePS = true
 
       case _ =>
         throw new IllegalArgumentException(s"Unexpected argument '$opt'.")
